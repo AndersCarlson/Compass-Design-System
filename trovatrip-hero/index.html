@@ -135,6 +135,8 @@ body{font-family:Roboto,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(
 .val.swap{opacity:0;transform:translateY(-3px)}
 .nav a.sub.state-hover{color:#1f2933}
 .tv-wrap,.tv-wrap *{cursor:pointer!important}
+.tv-wrap:focus{outline:none}
+.tv-wrap:focus-visible{outline:2px solid #3d8bf2;outline-offset:-2px}
 
 .l-color{left:1503px;top:585px;width:451.4px;height:250.8px}
 .l-color .panel{width:486px;height:270px}
@@ -181,7 +183,7 @@ body{font-family:Roboto,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(
 </style>
 </head>
 <body>
-<div class="tv-wrap" id="tv" aria-label="Animated preview of the Trovatrip host dashboard and the design system behind it" role="img">
+<div class="tv-wrap" id="tv" aria-label="Trovatrip Design System case study" role="link" tabindex="0" data-href="https://www.anderscarlson.co/trovatrip-design-system">
 <div class="tv-stage pre" id="stage">
   <canvas class="l-grid anim" id="grid" width="2048" height="1173" aria-hidden="true"></canvas>
 
@@ -583,7 +585,16 @@ body{font-family:Roboto,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(
     else { running = false; }
   }), {threshold: 0.25}).observe(wrap);
 
-  document.getElementById('replay').addEventListener('click', play);
+  document.getElementById('replay').addEventListener('click', e => { e.stopPropagation(); play(); });
+
+  /* ---------- whole frame links to the case study ---------- */
+  // Opens in the top window so it works inside a Framer embed (iframe).
+  function go(){
+    const url = wrap.dataset.href;
+    try { window.open(url, '_top'); } catch (err) { location.href = url; }
+  }
+  wrap.addEventListener('click', go);
+  wrap.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target === wrap) go(); });
 })();
 </script>
 </body>
